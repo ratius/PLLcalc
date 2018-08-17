@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>ぷちぐる 経験値計算機</title>
+<style><!--
+#inputs{
+	border-collapse: collapse;
+	border:solid 1px #333;
+}
+#inputs td{
+	padding: 3px 4px;
+	border:solid 1px #333;
+}
+#inputs th{
+	padding: 3px 4px;
+	border:solid 1px #333;
+}
+#inputs input{
+	margin-right: 5px;
+}
+
+#Preview{
+	color: #2a2a2a;
+	font-family: "メイリオ","Arial","ＭＳ Ｐゴシック";
+	font-size: 1em;
+	font-size: 76%;
+	line-height: 160%;
+
+	border: 1px solid #333;
+	border-collapse: collapse;
+	border-spacing: 2px;
+	display: table;
+	margin-bottom: 1em;
+	margin-top: 1em;
+	margin-left: 1px;
+	text-indent: 0;
+}
+
+#Preview tr{
+	display: table-row;
+	vertical-align: inherit;
+}
+
+#Preview td,th{
+	border: 1px solid #333;
+	display: table-cell;
+	padding: 4px;
+	text-align: inherit;
+	vertical-align: inherit;
+}
+
+#History {
+}
+
+#History td{
+	padding: 2px 4px;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: solid 2px #bbb;
+}
+
+#History img{
+	vertical-align: text-bottom;
+}
+
+
+--></style>
+<script><!--
+const ToNextLevel = 
+[    0,  130,  320,  550,  850, 1200, 1600, 2100, 2600, 3200,
+  4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 8500,
+ 10000,10600,11200,11800,12400,13000,13600,14200,14800,15400,
+ 19000,19800,20600,21400,22200,23000,23800,24600,25400,26200,
+ 30000,31000,32000,33000,34000,35000,36000,37000,38000,39000,0];
+
+const ExpSum = [0];
+for(i=1; i<=50; i++){ 
+	ExpSum[i] = ExpSum[i-1] + ToNextLevel[i-1];
+}
+const MaxLevel = ToNextLevel.length;
+
+function CalculateExp(){
+	var txt = "";
+	var TotalRemain = 0;
+	for(p=0; p<3; p++){ 
+		var lvl = document.R.CurrentLvl[p].value;
+		var CurrentExp = ExpSum[lvl] + ToNextLevel[lvl] - document.R.RemainExp[p].value;
+		if(lvl == 50){ CurrentExp = ExpSum[MaxLevel-1]; }
+		txt += "<b>ぷちぐる" + (p+1) + "経験値</b>：" + CurrentExp + " / " + ExpSum[MaxLevel-1] + "<br>";
+		TotalRemain += ExpSum[MaxLevel-1] - CurrentExp;
+		
+		for(i=10; i<=50; i+=10){
+			if(lvl >= i){ continue;}
+			var Z = ExpSum[i] - CurrentExp;
+			txt += "Lv" + i + "まで " + Z + "ぷち (経験値キャンディ " + Math.trunc(Z/2000) + " 個程度)<br>"
+		}
+		txt += "<br>"
+	}
+	txt += "3人LvMAXまで：" + TotalRemain;
+	document.getElementById("result").innerHTML = txt;
+}
+
+--></script>
+</head>
+<body>
+
+<form name="R">
+【ぷちぐる1】
+現在レベル <input type="number" name="CurrentLvl" min="1" max="50" value="1">
+残り経験値 <input type="number" name="RemainExp" min="0" max="999999" value="0"><br>
+
+【ぷちぐる2】
+現在レベル <input type="number" name="CurrentLvl" min="1" max="50" value="1">
+残り経験値 <input type="number" name="RemainExp" min="0" max="999999" value="0"><br>
+
+【ぷちぐる3】
+現在レベル <input type="number" name="CurrentLvl" min="1" max="50" value="1">
+残り経験値 <input type="number" name="RemainExp" min="0" max="999999" value="0"><br>
+<input type="button" onclick="CalculateExp()" value="計算">
+
+<div id="result" style="border:solid 1px #333; width:450px; padding: 3px; line-height:130%;">
+<span style="color:#999">ここに計算結果が表示されます</span></div>
+
+</form>
+</body>
+</html>
