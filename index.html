@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>ぷちぐる 経験値計算機</title>
+<title>ぷちぐる 経験値計算機 Ver1.1.1</title>
 <style><!--
 .MainBox {
 	border: solid 1px #333;
@@ -55,17 +55,24 @@ function CalculateExp(){
 <body>
 
 <form name="R" style="margin:5px">
-【センター】
-現在レベル <input type="number" name="CurrentLvl" min="0" max="50" value="1">
-残り経験値 <input type="number" name="RemainExp" min="0" max="999999" value="0"><br>
 
-【サポート1】
-現在レベル <input type="number" name="CurrentLvl" min="0" max="50" value="1">
-残り経験値 <input type="number" name="RemainExp" min="0" max="999999" value="0"><br>
-
-【サポート2】
-現在レベル <input type="number" name="CurrentLvl" min="0" max="50" value="1">
-残り経験値 <input type="number" name="RemainExp" min="0" max="999999" value="0"><br>
+<table style="border-collapse: collapse"><tbody>
+<tr>
+	<td>【センター】</td>
+	<td>現在レベル <input type="number" name="CurrentLvl" min="0" max="50" value="1"></td>
+	<td>残り経験値 <input type="number" name="RemainExp" min="0" max="999999" value="0"></td>
+</tr>
+<tr>
+	<td>【サポート1】</td>
+	<td>現在レベル <input type="number" name="CurrentLvl" min="0" max="50" value="1"></td>
+	<td>残り経験値 <input type="number" name="RemainExp" min="0" max="999999" value="0"></td>
+</tr>
+<tr>
+	<td>【サポート2】</td>
+	<td>現在レベル <input type="number" name="CurrentLvl" min="0" max="50" value="1"></td>
+	<td>残り経験値 <input type="number" name="RemainExp" min="0" max="999999" value="0"></td>
+</tr>
+</tbody></table>
 <input type="button" onclick="CalculateExp()" value="計算">
 
 <div id="result" class="MainBox">
