@@ -4,65 +4,12 @@
 <meta charset="utf-8">
 <title>ぷちぐる 経験値計算機</title>
 <style><!--
-#inputs{
-	border-collapse: collapse;
-	border:solid 1px #333;
-}
-#inputs td{
-	padding: 3px 4px;
-	border:solid 1px #333;
-}
-#inputs th{
-	padding: 3px 4px;
-	border:solid 1px #333;
-}
-#inputs input{
-	margin-right: 5px;
-}
-
-#Preview{
-	color: #2a2a2a;
-	font-family: "メイリオ","Arial","ＭＳ Ｐゴシック";
-	font-size: 1em;
-	font-size: 76%;
-	line-height: 160%;
-
-	border: 1px solid #333;
-	border-collapse: collapse;
-	border-spacing: 2px;
-	display: table;
-	margin-bottom: 1em;
-	margin-top: 1em;
-	margin-left: 1px;
-	text-indent: 0;
-}
-
-#Preview tr{
-	display: table-row;
-	vertical-align: inherit;
-}
-
-#Preview td,th{
-	border: 1px solid #333;
-	display: table-cell;
-	padding: 4px;
-	text-align: inherit;
-	vertical-align: inherit;
-}
-
-#History {
-}
-
-#History td{
-	padding: 2px 4px;
-	border-top: none;
-	border-left: none;
-	border-right: none;
-	border-bottom: solid 2px #bbb;
-}
-
-#History img{
-	vertical-align: text-bottom;
+.MainBox {
+	border: solid 1px #333;
+	width: 480px;
+	padding: 3px;
+	line-height:130%;
+	margin: 5px 5px 20px 5px;
 }
 
 
@@ -88,17 +35,18 @@ function CalculateExp(){
 		var lvl = document.R.CurrentLvl[p].value;
 		var CurrentExp = ExpSum[lvl] + ToNextLevel[lvl] - document.R.RemainExp[p].value;
 		if(lvl == 50){ CurrentExp = ExpSum[MaxLevel-1]; }
-		txt += "<b>ぷちぐる" + (p+1) + "経験値</b>：" + CurrentExp + " / " + ExpSum[MaxLevel-1] + "<br>";
+		txt += "<b>" + ["センター","サポート1","サポート2"][p] + "経験値</b>："
+		+ CurrentExp.toLocaleString() + " / " + ExpSum[MaxLevel-1].toLocaleString() + "<br>";
 		TotalRemain += ExpSum[MaxLevel-1] - CurrentExp;
 		
 		for(i=10; i<=50; i+=10){
 			if(lvl >= i){ continue;}
 			var Z = ExpSum[i] - CurrentExp;
-			txt += "Lv" + i + "まで " + Z + "ぷち (経験値キャンディ " + Math.trunc(Z/2000) + " 個程度)<br>"
+			txt += "Lv" + i + "まで " + Z.toLocaleString() + "ぷち (経験値キャンディ " + Math.trunc(Z/2000) + " 個程度)<br>"
 		}
 		txt += "<br>"
 	}
-	txt += "3人LvMAXまで：" + TotalRemain;
+	txt += "3人LvMAXまで " + TotalRemain.toLocaleString() + " ぷち";
 	document.getElementById("result").innerHTML = txt;
 }
 
@@ -106,22 +54,35 @@ function CalculateExp(){
 </head>
 <body>
 
-<form name="R">
-【ぷちぐる1】
-現在レベル <input type="number" name="CurrentLvl" min="1" max="50" value="1">
+<form name="R" style="margin:5px">
+【センター】
+現在レベル <input type="number" name="CurrentLvl" min="0" max="50" value="1">
 残り経験値 <input type="number" name="RemainExp" min="0" max="999999" value="0"><br>
 
-【ぷちぐる2】
-現在レベル <input type="number" name="CurrentLvl" min="1" max="50" value="1">
+【サポート1】
+現在レベル <input type="number" name="CurrentLvl" min="0" max="50" value="1">
 残り経験値 <input type="number" name="RemainExp" min="0" max="999999" value="0"><br>
 
-【ぷちぐる3】
-現在レベル <input type="number" name="CurrentLvl" min="1" max="50" value="1">
+【サポート2】
+現在レベル <input type="number" name="CurrentLvl" min="0" max="50" value="1">
 残り経験値 <input type="number" name="RemainExp" min="0" max="999999" value="0"><br>
 <input type="button" onclick="CalculateExp()" value="計算">
 
-<div id="result" style="border:solid 1px #333; width:450px; padding: 3px; line-height:130%;">
-<span style="color:#999">ここに計算結果が表示されます</span></div>
+<div id="result" class="MainBox">
+<span style="color:#999">この枠内に計算結果が表示されます</span><br><br>
+<span style="color:#999">
+2018/10/29 Ver1.1 - デザイン調整。レベル解放早見表を掲載<br>
+2018/08/17 Ver1.0 - 公開
+</span>
+</div>
+
+<div class="MainBox" style="color:#963; background-color:#fed"><b>■レベル解放早見表</b><br>
+Lv<span style="color:white">0</span>1→10 = <span style="color:white">0</span>12,550ぷち (経験値キャンディ 6 個 + 550ぷち）<br>
+Lv10→20 = <span style="color:white">0</span>62,500ぷち (経験値キャンディ 31 個 + 500ぷち）<br>
+Lv20→30 = 127,000ぷち (経験値キャンディ 63 個 + 1,000ぷち）<br>
+Lv30→40 = 226,000ぷち (経験値キャンディ 113 個）<br>
+Lv40→50 = 343,000ぷち (経験値キャンディ 171 個 + 1,000ぷち）</span><br><br>
+</div>
 
 </form>
 </body>
